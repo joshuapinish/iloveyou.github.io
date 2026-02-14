@@ -1,42 +1,140 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Para Ti 💖</title>
-    <style>
-        body {
-            background: linear-gradient(to right, #ff9a9e, #fad0c4);
-            text-align: center;
-            font-family: Arial;
-            color: white;
-            margin-top: 100px;
-        }
-        h1 {
-            font-size: 50px;
-        }
-        button {
-            padding: 15px;
-            font-size: 20px;
-            border: none;
-            border-radius: 10px;
-            background-color: white;
-            color: #ff4d6d;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #ffe5ec;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Para Mi Amor 💖</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: black;
+    color: white;
+    text-align: center;
+}
+
+/* Fondo estrellas */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* Carta animada */
+.carta {
+    margin-top: 80px;
+    animation: aparecer 3s ease-in-out;
+}
+
+@keyframes aparecer {
+    from {opacity: 0; transform: translateY(50px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* Galería */
+.galeria img {
+    width: 200px;
+    margin: 10px;
+    border-radius: 15px;
+    transition: transform 0.3s;
+}
+.galeria img:hover {
+    transform: scale(1.1);
+}
+
+/* Botón */
+.boton {
+    padding: 15px;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    background: pink;
+    cursor: pointer;
+}
+</style>
 </head>
+
 <body>
 
-<h1>Hola Mi Amor 💕</h1>
-<p>Eres lo mejor que me ha pasado.</p>
+<audio autoplay loop>
+    <source src="musica.mp3" type="audio/mpeg">
+</audio>
 
-<button onclick="mensaje()">Haz click aquí</button>
+<canvas id="estrellas"></canvas>
+
+<div class="carta">
+    <h1>Hola Mi Amor 💕</h1>
+    <p>
+        Desde el día que llegaste a mi vida,
+        todo es más bonito.
+        Eres mi persona favorita,
+        mi paz y mi felicidad.
+        Te amo más de lo que las palabras pueden explicar 💖
+    </p>
+
+    <h2>⏳ Tiempo juntos:</h2>
+    <p id="contador"></p>
+
+    <button class="boton" onclick="respuesta()">¿Me amas mucho? ❤️</button>
+</div>
+
+<h2>📸 Nuestros Momentos</h2>
+<div class="galeria">
+    <img src="foto1.jpg">
+    <img src="foto2.jpg">
+    <img src="foto3.jpg">
+</div>
 
 <script>
-function mensaje() {
-    alert("Te amo muchísimo 💖");
+// ⭐ Fondo estrellas estilo mundo virtual
+const canvas = document.getElementById("estrellas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let estrellas = [];
+
+for (let i = 0; i < 200; i++) {
+    estrellas.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2
+    });
+}
+
+function dibujarEstrellas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+    estrellas.forEach(e => {
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.r, 0, Math.PI * 2);
+        ctx.fill();
+    });
+}
+
+setInterval(dibujarEstrellas, 50);
+
+// ⏳ Contador de tiempo juntos
+const fechaInicio = new Date("2024-05-10");
+function actualizarContador() {
+    const ahora = new Date();
+    const diferencia = ahora - fechaInicio;
+
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+
+    document.getElementById("contador").innerText =
+        dias + " días, " + horas + " horas y " + minutos + " minutos 💕";
+}
+setInterval(actualizarContador, 1000);
+
+// ❤️ Botón gracioso
+function respuesta() {
+    alert("Yo te amo muchísimoooooo más 😘💖");
 }
 </script>
 
