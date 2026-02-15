@@ -14,12 +14,12 @@ font-family:'Segoe UI', sans-serif;
 }
 
 body{
-background:#0a0a0f;
+background:#0a0a12;
 color:white;
-overflow-x:hidden;
+overflow:hidden;
 }
 
-/* ===== FONDO GALAXIA ===== */
+/* FONDO */
 canvas{
 position:fixed;
 top:0;
@@ -27,36 +27,41 @@ left:0;
 z-index:-1;
 }
 
-/* ===== SECCIÓN HERO ===== */
-.hero{
+/* PANTALLAS */
+.screen{
+position:absolute;
+width:100%;
 height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:20px;
+transition:0.8s ease;
+opacity:0;
+transform:scale(1.1);
+pointer-events:none;
 }
 
+.screen.active{
+opacity:1;
+transform:scale(1);
+pointer-events:auto;
+}
+
+/* GLASS */
 .glass{
 background:rgba(255,255,255,0.08);
 backdrop-filter:blur(20px);
 border:1px solid rgba(255,255,255,0.15);
 border-radius:25px;
 padding:40px;
-max-width:500px;
-box-shadow:0 0 40px rgba(255,0,150,0.2);
 }
 
-h1{
-font-size:2.5rem;
-margin-bottom:20px;
-}
-
+/* BOTONES */
 .buttons{
 display:flex;
 gap:20px;
-justify-content:center;
 margin-top:20px;
 }
 
@@ -80,86 +85,16 @@ color:white;
 border:1px solid rgba(255,255,255,0.2);
 }
 
-/* ===== GALERÍA ESTILO APPLE ===== */
-.gallery{
-padding:100px 0;
-overflow:hidden;
-}
-
-.gallery-track{
-display:flex;
-gap:30px;
-overflow-x:auto;
-scroll-behavior:smooth;
-padding:40px;
-}
-
-.gallery-track img{
+/* GALERÍA */
+.gallery img{
 height:300px;
 border-radius:25px;
+margin:10px;
 transition:0.5s;
-box-shadow:0 20px 40px rgba(0,0,0,0.6);
 }
 
-.gallery-track img:hover{
+.gallery img:hover{
 transform:scale(1.05);
-}
-
-/* ===== CONEJO PROFESIONAL ===== */
-.bunny-section{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-position:relative;
-}
-
-.bunny{
-position:absolute;
-bottom:100px;
-left:-200px;
-animation:walk 5s forwards ease-in-out;
-}
-
-@keyframes walk{
-to{left:40%;}
-}
-
-.body{
-width:90px;
-height:90px;
-background:white;
-border-radius:50%;
-position:relative;
-}
-
-.head{
-width:80px;
-height:80px;
-background:white;
-border-radius:50%;
-position:absolute;
-top:-60px;
-left:5px;
-}
-
-.ear{
-width:20px;
-height:70px;
-background:white;
-border-radius:50px;
-position:absolute;
-top:-50px;
-animation:earMove 1s infinite alternate;
-}
-
-.ear.left{left:15px;}
-.ear.right{right:15px;}
-
-@keyframes earMove{
-from{transform:rotate(0deg);}
-to{transform:rotate(8deg);}
 }
 
 /* SOBRE */
@@ -168,44 +103,31 @@ width:150px;
 height:100px;
 background:#ff80bf;
 border-radius:10px;
-position:absolute;
-bottom:120px;
-left:50%;
-transform:translateX(-50%) scale(0);
-animation:showEnvelope 2s 5s forwards;
+margin-top:20px;
+cursor:pointer;
 }
 
-@keyframes showEnvelope{
-to{transform:translateX(-50%) scale(1);}
-}
-
-/* CARTA */
 .letter{
-width:180px;
+width:220px;
 height:0;
 background:white;
 color:black;
 overflow:hidden;
 border-radius:10px;
-position:absolute;
-bottom:220px;
-left:50%;
-transform:translateX(-50%);
-animation:openLetter 2s 7s forwards;
+margin-top:10px;
+transition:0.7s;
+padding:0 15px;
 }
 
-@keyframes openLetter{
-to{height:200px;}
-}
-
-.letter p{
+.letter.open{
+height:200px;
 padding:15px;
 }
 
-/* ===== FOOTER LOVE ===== */
+/* CORAZÓN */
 .love{
 font-size:40px;
-margin-top:40px;
+margin-top:20px;
 animation:beat 1s infinite;
 }
 
@@ -216,6 +138,7 @@ animation:beat 1s infinite;
 }
 </style>
 </head>
+
 <body>
 
 <audio id="music" loop>
@@ -224,7 +147,8 @@ animation:beat 1s infinite;
 
 <canvas id="stars"></canvas>
 
-<section class="hero">
+<!-- PANTALLA 1 -->
+<div class="screen active" id="screen1">
 <div class="glass">
 <h1>¿Me amas mucho? 💕</h1>
 <div class="buttons">
@@ -232,53 +156,45 @@ animation:beat 1s infinite;
 <button id="btnNo">No 😏</button>
 </div>
 </div>
-</section>
+</div>
 
-<section class="gallery">
-<div class="gallery-track">
+<!-- PANTALLA 2 -->
+<div class="screen" id="screen2">
+<h1>10 de Mayo 2024 💕</h1>
+<p>El día que comenzó nuestro universo ✨</p>
+<p style="margin-top:30px;opacity:0.7;">(Toca para continuar)</p>
+</div>
+
+<!-- PANTALLA 3 -->
+<div class="screen" id="screen3">
+<h1>Nuestros Momentos 💖</h1>
+<div class="gallery">
 <img src="foto1.jpg">
 <img src="foto2.jpg">
 <img src="foto3.jpg">
-<img src="foto4.jpg">
 </div>
-</section>
-
-<section class="bunny-section">
-
-<h2>Desde 10 de Mayo 2024 💕</h2>
-
-<div class="bunny">
-<div class="body">
-<div class="head">
-<div class="ear left"></div>
-<div class="ear right"></div>
-</div>
-</div>
+<p style="margin-top:20px;opacity:0.7;">(Toca para continuar)</p>
 </div>
 
-<div class="envelope"></div>
+<!-- PANTALLA 4 -->
+<div class="screen" id="screen4">
+<h1>Una carta para ti 💌</h1>
 
-<div class="letter">
-<p>
-Eres mi universo entero 💖<br>
-Mi estrella favorita ✨<br>
-Mi felicidad diaria 🌸<br>
+<div class="envelope" id="envelope"></div>
+
+<div class="letter" id="letter">
+Eres mi universo entero 💖<br><br>
+Mi estrella favorita ✨<br><br>
+Mi felicidad diaria 🌸<br><br>
 Te amo infinito.
-</p>
 </div>
 
 <div class="love">❤️</div>
-
-</section>
+</div>
 
 <script>
 
-/* ===== MÚSICA EN PRIMER TOQUE ===== */
-document.addEventListener("click",()=>{
-document.getElementById("music").play();
-},{once:true});
-
-/* ===== FONDO ESTRELLAS ===== */
+/* ESTRELLAS */
 const canvas=document.getElementById("stars");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
@@ -308,13 +224,31 @@ requestAnimationFrame(animate);
 }
 animate();
 
-/* ===== BOTÓN NO ===== */
+/* CAMBIO DE PANTALLAS */
+let current=1;
+
+function nextScreen(){
+if(current<4){
+document.getElementById("screen"+current).classList.remove("active");
+current++;
+document.getElementById("screen"+current).classList.add("active");
+}
+}
+
+document.body.addEventListener("click",(e)=>{
+if(current!==1){ 
+nextScreen();
+}
+});
+
+/* BOTONES */
 let scaleNo=1;
 let scaleSi=1;
 const btnNo=document.getElementById("btnNo");
 const btnSi=document.getElementById("btnSi");
 
-btnNo.addEventListener("click",()=>{
+btnNo.addEventListener("click",(e)=>{
+e.stopPropagation();
 scaleNo-=0.15;
 if(scaleNo<0.2)scaleNo=0.2;
 btnNo.style.transform=`scale(${scaleNo})`;
@@ -323,11 +257,16 @@ scaleSi+=0.15;
 btnSi.style.transform=`scale(${scaleSi})`;
 });
 
-btnSi.addEventListener("click",()=>{
-window.scrollTo({
-top:document.body.scrollHeight,
-behavior:"smooth"
+btnSi.addEventListener("click",(e)=>{
+e.stopPropagation();
+document.getElementById("music").play();
+nextScreen();
 });
+
+/* CARTA */
+document.getElementById("envelope").addEventListener("click",(e)=>{
+e.stopPropagation();
+document.getElementById("letter").classList.toggle("open");
 });
 
 </script>
