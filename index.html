@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Nuestro Universo 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestro Universo 💖</title>
 
 <style>
 *{
@@ -14,123 +14,283 @@ font-family:'Segoe UI', sans-serif;
 }
 
 body{
-background: radial-gradient(circle at center, #111 0%, #000 100%);
+background:#0a0a0f;
 color:white;
-overflow:hidden;
+overflow-x:hidden;
+}
+
+/* ===== FONDO GALAXIA ===== */
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+/* ===== SECCIÓN HERO ===== */
+.hero{
+height:100vh;
 display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-height:100vh;
-}
-
-/* CONTENEDOR PRINCIPAL */
-.container{
 text-align:center;
-position:relative;
-z-index:2;
+padding:20px;
 }
 
-/* TÍTULO */
+.glass{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.15);
+border-radius:25px;
+padding:40px;
+max-width:500px;
+box-shadow:0 0 40px rgba(255,0,150,0.2);
+}
+
 h1{
 font-size:2.5rem;
-margin-bottom:30px;
-letter-spacing:1px;
-}
-
-/* MENSAJE DINÁMICO */
-#mensaje{
-height:30px;
 margin-bottom:20px;
-font-size:1.1rem;
-opacity:0;
-transition:0.4s;
-color:#ff9ecf;
 }
 
-/* BOTONES */
 .buttons{
-position:relative;
 display:flex;
 gap:20px;
 justify-content:center;
+margin-top:20px;
 }
 
 button{
 padding:14px 28px;
-font-size:1rem;
+border-radius:40px;
 border:none;
-border-radius:50px;
 cursor:pointer;
-transition:0.3s ease;
-position:relative;
+transition:0.3s;
+font-weight:bold;
 }
 
 #btnSi{
 background:linear-gradient(45deg,#ff4d8d,#ff80bf);
 color:white;
-box-shadow:0 0 20px rgba(255,80,140,0.6);
 }
 
 #btnNo{
-background:#222;
+background:rgba(255,255,255,0.1);
 color:white;
-border:1px solid #444;
+border:1px solid rgba(255,255,255,0.2);
 }
 
-/* ESTRELLAS */
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:1;
+/* ===== GALERÍA ESTILO APPLE ===== */
+.gallery{
+padding:100px 0;
+overflow:hidden;
 }
 
-/* TRANSICIÓN */
-.fade{
-animation:fadeOut 1s forwards;
+.gallery-track{
+display:flex;
+gap:30px;
+overflow-x:auto;
+scroll-behavior:smooth;
+padding:40px;
 }
-@keyframes fadeOut{
-to{opacity:0;transform:scale(1.2);}
+
+.gallery-track img{
+height:300px;
+border-radius:25px;
+transition:0.5s;
+box-shadow:0 20px 40px rgba(0,0,0,0.6);
+}
+
+.gallery-track img:hover{
+transform:scale(1.05);
+}
+
+/* ===== CONEJO PROFESIONAL ===== */
+.bunny-section{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+position:relative;
+}
+
+.bunny{
+position:absolute;
+bottom:100px;
+left:-200px;
+animation:walk 5s forwards ease-in-out;
+}
+
+@keyframes walk{
+to{left:40%;}
+}
+
+.body{
+width:90px;
+height:90px;
+background:white;
+border-radius:50%;
+position:relative;
+}
+
+.head{
+width:80px;
+height:80px;
+background:white;
+border-radius:50%;
+position:absolute;
+top:-60px;
+left:5px;
+}
+
+.ear{
+width:20px;
+height:70px;
+background:white;
+border-radius:50px;
+position:absolute;
+top:-50px;
+animation:earMove 1s infinite alternate;
+}
+
+.ear.left{left:15px;}
+.ear.right{right:15px;}
+
+@keyframes earMove{
+from{transform:rotate(0deg);}
+to{transform:rotate(8deg);}
+}
+
+/* SOBRE */
+.envelope{
+width:150px;
+height:100px;
+background:#ff80bf;
+border-radius:10px;
+position:absolute;
+bottom:120px;
+left:50%;
+transform:translateX(-50%) scale(0);
+animation:showEnvelope 2s 5s forwards;
+}
+
+@keyframes showEnvelope{
+to{transform:translateX(-50%) scale(1);}
+}
+
+/* CARTA */
+.letter{
+width:180px;
+height:0;
+background:white;
+color:black;
+overflow:hidden;
+border-radius:10px;
+position:absolute;
+bottom:220px;
+left:50%;
+transform:translateX(-50%);
+animation:openLetter 2s 7s forwards;
+}
+
+@keyframes openLetter{
+to{height:200px;}
+}
+
+.letter p{
+padding:15px;
+}
+
+/* ===== FOOTER LOVE ===== */
+.love{
+font-size:40px;
+margin-top:40px;
+animation:beat 1s infinite;
+}
+
+@keyframes beat{
+0%{transform:scale(1);}
+50%{transform:scale(1.3);}
+100%{transform:scale(1);}
 }
 </style>
 </head>
-
 <body>
 
-<canvas id="bg"></canvas>
+<audio id="music" loop>
+<source src="musica.mp3" type="audio/mpeg">
+</audio>
 
-<div class="container" id="main">
+<canvas id="stars"></canvas>
 
+<section class="hero">
+<div class="glass">
 <h1>¿Me amas mucho? 💕</h1>
-
-<div id="mensaje"></div>
-
 <div class="buttons">
 <button id="btnSi">Sí 💖</button>
 <button id="btnNo">No 😏</button>
 </div>
-
 </div>
+</section>
+
+<section class="gallery">
+<div class="gallery-track">
+<img src="foto1.jpg">
+<img src="foto2.jpg">
+<img src="foto3.jpg">
+<img src="foto4.jpg">
+</div>
+</section>
+
+<section class="bunny-section">
+
+<h2>Desde 10 de Mayo 2024 💕</h2>
+
+<div class="bunny">
+<div class="body">
+<div class="head">
+<div class="ear left"></div>
+<div class="ear right"></div>
+</div>
+</div>
+</div>
+
+<div class="envelope"></div>
+
+<div class="letter">
+<p>
+Eres mi universo entero 💖<br>
+Mi estrella favorita ✨<br>
+Mi felicidad diaria 🌸<br>
+Te amo infinito.
+</p>
+</div>
+
+<div class="love">❤️</div>
+
+</section>
 
 <script>
 
-/* ======================
-   FONDO ESTRELLAS MODERNO
-====================== */
+/* ===== MÚSICA EN PRIMER TOQUE ===== */
+document.addEventListener("click",()=>{
+document.getElementById("music").play();
+},{once:true});
 
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+/* ===== FONDO ESTRELLAS ===== */
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-let stars = [];
-
-for(let i=0;i<120;i++){
+let stars=[];
+for(let i=0;i<150;i++){
 stars.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
 r:Math.random()*2,
-speed:Math.random()*0.5+0.2
+speed:Math.random()*0.5
 });
 }
 
@@ -148,100 +308,30 @@ requestAnimationFrame(animate);
 }
 animate();
 
-/* ======================
-   LÓGICA BOTONES BIEN HECHA
-====================== */
+/* ===== BOTÓN NO ===== */
+let scaleNo=1;
+let scaleSi=1;
+const btnNo=document.getElementById("btnNo");
+const btnSi=document.getElementById("btnSi");
 
-const btnNo = document.getElementById("btnNo");
-const btnSi = document.getElementById("btnSi");
-const mensaje = document.getElementById("mensaje");
+btnNo.addEventListener("click",()=>{
+scaleNo-=0.15;
+if(scaleNo<0.2)scaleNo=0.2;
+btnNo.style.transform=`scale(${scaleNo})`;
 
-let scaleNo = 1;
-let scaleSi = 1;
-
-const frases = [
-"¿En serio? 🥺",
-"¿Segura? 😢",
-"Piensa bien... 💔",
-"Me pondré triste 😭",
-"Última oportunidad 😔"
-];
-
-let index = 0;
-
-btnNo.addEventListener("click", () => {
-
-if(index < frases.length){
-mensaje.innerText = frases[index];
-mensaje.style.opacity = 1;
-index++;
-}
-
-scaleNo -= 0.15;
-if(scaleNo < 0.2) scaleNo = 0.2;
-
-scaleSi += 0.15;
-
-btnNo.style.transform = `scale(${scaleNo})`;
-btnSi.style.transform = `scale(${scaleSi})`;
-
-/* Mover NO hacia el centro del SÍ */
-const rectSi = btnSi.getBoundingClientRect();
-btnNo.style.position = "absolute";
-btnNo.style.left = rectSi.left + rectSi.width/4 + "px";
-btnNo.style.top = rectSi.top + rectSi.height/4 + "px";
-btnNo.style.zIndex = "0";
-
+scaleSi+=0.15;
+btnSi.style.transform=`scale(${scaleSi})`;
 });
 
-/* CUANDO PRESIONA SÍ */
-
-btnSi.addEventListener("click", () => {
-
-mensaje.innerText = "Lo sabía 😌💖";
-mensaje.style.opacity = 1;
-
-document.getElementById("main").classList.add("fade");
-
-setTimeout(()=>{
-document.body.innerHTML = `
-<div style="
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-height:100vh;
-background:radial-gradient(circle,#1a001a,#000);
-color:white;
-text-align:center;
-animation:fadeIn 1s;
-">
-
-<h1>Desde 10 de Mayo 2024 💕</h1>
-<p style="margin-top:20px;font-size:1.2rem;">
-Eres mi universo entero ✨<br>
-Mi persona favorita 💖<br>
-Te amo infinito.
-</p>
-
-<div style="font-size:50px;margin-top:30px;animation:latir 1s infinite;">❤️</div>
-
-</div>
-
-<style>
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-@keyframes latir{
-0%{transform:scale(1);}
-50%{transform:scale(1.3);}
-100%{transform:scale(1);}
-}
-</style>
-`;
-},1000);
-
+btnSi.addEventListener("click",()=>{
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+});
 });
 
 </script>
 
 </body>
 </html>
+
