@@ -1,306 +1,245 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <title>Nuestro Universo 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
+*{
 margin:0;
-overflow:hidden;
-font-family:Arial;
-background:black;
-color:white;
-text-align:center;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI', sans-serif;
 }
 
-/* CANVAS */
+body{
+background: radial-gradient(circle at center, #111 0%, #000 100%);
+color:white;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.container{
+text-align:center;
+position:relative;
+z-index:2;
+}
+
+/* TÍTULO */
+h1{
+font-size:2.5rem;
+margin-bottom:30px;
+letter-spacing:1px;
+}
+
+/* MENSAJE DINÁMICO */
+#mensaje{
+height:30px;
+margin-bottom:20px;
+font-size:1.1rem;
+opacity:0;
+transition:0.4s;
+color:#ff9ecf;
+}
+
+/* BOTONES */
+.buttons{
+position:relative;
+display:flex;
+gap:20px;
+justify-content:center;
+}
+
+button{
+padding:14px 28px;
+font-size:1rem;
+border:none;
+border-radius:50px;
+cursor:pointer;
+transition:0.3s ease;
+position:relative;
+}
+
+#btnSi{
+background:linear-gradient(45deg,#ff4d8d,#ff80bf);
+color:white;
+box-shadow:0 0 20px rgba(255,80,140,0.6);
+}
+
+#btnNo{
+background:#222;
+color:white;
+border:1px solid #444;
+}
+
+/* ESTRELLAS */
 canvas{
 position:fixed;
 top:0;
 left:0;
-z-index:-1;
-}
-
-/* SECCIONES */
-.seccion{
-position:absolute;
-width:100%;
-height:100%;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-transition:1s;
-}
-
-/* CORAZÓN IMÁGENES */
-.corazon{
-position:relative;
-width:400px;
-height:350px;
-}
-.corazon img{
-position:absolute;
-width:90px;
-height:90px;
-border-radius:20px;
-transition:0.8s;
-}
-.pos1{top:50px;left:155px;}
-.pos2{top:20px;left:100px;}
-.pos3{top:20px;left:210px;}
-.pos4{top:120px;left:155px;}
-.pos5{top:190px;left:155px;}
-
-/* BOTONES */
-#botones{position:relative;}
-button{
-padding:12px 20px;
-font-size:18px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-margin:10px;
-transition:0.3s;
+z-index:1;
 }
 
 /* TRANSICIÓN */
-.portal{
-position:fixed;
-width:100%;
-height:100%;
-background:radial-gradient(circle, #ff4d6d, black);
-opacity:0;
-pointer-events:none;
-transition:1.5s;
-z-index:10;
+.fade{
+animation:fadeOut 1s forwards;
 }
-
-/* PARTE 2 */
-#parte2{display:none;flex-direction:column;}
-
-/* CONEJO */
-.conejo{
-position:absolute;
-bottom:100px;
-left:-200px;
-width:120px;
-height:150px;
-animation:caminar 4s forwards;
-}
-
-@keyframes caminar{
-to{left:40%;}
-}
-
-.cuerpo{
-width:80px;height:80px;background:white;border-radius:50%;
-position:absolute;bottom:0;left:20px;
-}
-.cabeza{
-width:70px;height:70px;background:white;border-radius:50%;
-position:absolute;bottom:60px;left:25px;
-}
-.oreja{
-width:20px;height:60px;background:white;border-radius:50px;
-position:absolute;top:-40px;animation:moverOreja 1s infinite alternate;
-}
-.oreja.izq{left:15px;}
-.oreja.der{left:35px;}
-
-@keyframes moverOreja{
-from{transform:rotate(0deg);}
-to{transform:rotate(10deg);}
-}
-
-/* SOBRE */
-.sobre{
-width:120px;height:80px;background:pink;
-position:absolute;bottom:0;left:150px;
-transform:scale(0);
-animation:entregar 2s 4s forwards;
-}
-@keyframes entregar{to{transform:scale(1);}}
-
-/* CARTA 3D */
-.carta{
-position:absolute;
-width:140px;height:0;
-background:white;color:black;
-overflow:hidden;
-bottom:80px;left:140px;
-transform-origin:bottom;
-animation:abrir 2s 6s forwards;
-}
-@keyframes abrir{
-to{height:150px;}
-}
-
-/* CORAZÓN LATIDO */
-.latido{
-font-size:40px;
-animation:latir 1s infinite;
-}
-@keyframes latir{
-0%{transform:scale(1);}
-50%{transform:scale(1.3);}
-100%{transform:scale(1);}
+@keyframes fadeOut{
+to{opacity:0;transform:scale(1.2);}
 }
 </style>
 </head>
 
 <body>
 
-<audio id="musica" autoplay loop>
-<source src="musica.mp3" type="audio/mpeg">
-</audio>
+<canvas id="bg"></canvas>
 
-<div class="portal" id="portal"></div>
-<canvas id="estrellas"></canvas>
-
-<!-- PARTE 1 -->
-<div class="seccion" id="parte1">
+<div class="container" id="main">
 
 <h1>¿Me amas mucho? 💕</h1>
 
-<div class="corazon">
-<img src="foto1.jpg" class="pos1">
-<img src="foto2.jpg" class="pos2">
-<img src="foto3.jpg" class="pos3">
-<img src="foto4.jpg" class="pos4">
-<img src="foto1.jpg" class="pos5">
-</div>
+<div id="mensaje"></div>
 
-<div id="botones">
-<button id="btnSi" onclick="si()">Sí 💖</button>
-<button id="btnNo" onclick="no()">No 😏</button>
-</div>
-
-<div id="respuesta"></div>
-
-</div>
-
-<!-- PARTE 2 -->
-<div class="seccion" id="parte2">
-
-<h1>Lo sabía 😌💖</h1>
-<img src="gifamor.gif" width="200">
-
-<h2>Desde 10 de Mayo 2024 💕</h2>
-
-<div class="latido">❤️</div>
-
-<div class="conejo">
-<div class="cuerpo"></div>
-<div class="cabeza">
-<div class="oreja izq"></div>
-<div class="oreja der"></div>
-</div>
-</div>
-
-<div class="sobre"></div>
-
-<div class="carta">
-<p style="padding:10px;">
-Eres mi universo entero 💕  
-Mi estrella favorita ✨  
-Mi felicidad diaria 🌸  
-Te amo infinito.
-</p>
+<div class="buttons">
+<button id="btnSi">Sí 💖</button>
+<button id="btnNo">No 😏</button>
 </div>
 
 </div>
 
 <script>
 
-/* GALAXIA */
-const canvas=document.getElementById("estrellas");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+/* ======================
+   FONDO ESTRELLAS MODERNO
+====================== */
 
-let estrellas=[];
-for(let i=0;i<200;i++){
-estrellas.push({
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+
+for(let i=0;i<120;i++){
+stars.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
 r:Math.random()*2,
-speed:Math.random()*0.5
+speed:Math.random()*0.5+0.2
 });
 }
 
-function dibujar(){
+function animate(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
 ctx.fillStyle="white";
-estrellas.forEach(e=>{
+stars.forEach(s=>{
 ctx.beginPath();
-ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
 ctx.fill();
-e.y+=e.speed;
-if(e.y>canvas.height)e.y=0;
+s.y+=s.speed;
+if(s.y>canvas.height)s.y=0;
 });
-ctx.fillStyle="pink";
-ctx.font="20px Arial";
-for(let i=0;i<10;i++){
-ctx.fillText("❤",
-Math.random()*canvas.width,
-Math.random()*canvas.height);
+requestAnimationFrame(animate);
 }
-requestAnimationFrame(dibujar);
-}
-dibujar();
+animate();
 
-/* FOTOS CAMBIAN */
-setInterval(()=>{
-let imgs=document.querySelectorAll(".corazon img");
-let clases=["pos1","pos2","pos3","pos4","pos5"];
-imgs.forEach(img=>{
-img.className=clases[Math.floor(Math.random()*clases.length)];
+/* ======================
+   LÓGICA BOTONES BIEN HECHA
+====================== */
+
+const btnNo = document.getElementById("btnNo");
+const btnSi = document.getElementById("btnSi");
+const mensaje = document.getElementById("mensaje");
+
+let scaleNo = 1;
+let scaleSi = 1;
+
+const frases = [
+"¿En serio? 🥺",
+"¿Segura? 😢",
+"Piensa bien... 💔",
+"Me pondré triste 😭",
+"Última oportunidad 😔"
+];
+
+let index = 0;
+
+btnNo.addEventListener("click", () => {
+
+if(index < frases.length){
+mensaje.innerText = frases[index];
+mensaje.style.opacity = 1;
+index++;
+}
+
+scaleNo -= 0.15;
+if(scaleNo < 0.2) scaleNo = 0.2;
+
+scaleSi += 0.15;
+
+btnNo.style.transform = `scale(${scaleNo})`;
+btnSi.style.transform = `scale(${scaleSi})`;
+
+/* Mover NO hacia el centro del SÍ */
+const rectSi = btnSi.getBoundingClientRect();
+btnNo.style.position = "absolute";
+btnNo.style.left = rectSi.left + rectSi.width/4 + "px";
+btnNo.style.top = rectSi.top + rectSi.height/4 + "px";
+btnNo.style.zIndex = "0";
+
 });
-},2000);
 
-/* BOTONES */
-let escalaNo=1;
-let escalaSi=1;
-let mensajes=["¿En serio? 🥺","¿Segura? 😢","Piénsalo bien 😭","Última oportunidad 💔"];
-let contador=0;
+/* CUANDO PRESIONA SÍ */
 
-function no(){
-let btnNo=document.getElementById("btnNo");
-let btnSi=document.getElementById("btnSi");
+btnSi.addEventListener("click", () => {
 
-if(contador<mensajes.length){
-btnNo.innerText=mensajes[contador];
-contador++;
-}else{
-btnNo.innerText="😔";
-}
+mensaje.innerText = "Lo sabía 😌💖";
+mensaje.style.opacity = 1;
 
-escalaNo-=0.15;
-if(escalaNo<0.2) escalaNo=0.2;
-btnNo.style.transform="scale("+escalaNo+")";
-
-escalaSi+=0.15;
-btnSi.style.transform="scale("+escalaSi+")";
-
-btnNo.style.position="absolute";
-btnNo.style.left=btnSi.offsetLeft+30+"px";
-btnNo.style.top=btnSi.offsetTop+30+"px";
-btnNo.style.zIndex="-1";
-}
-
-/* TRANSICIÓN */
-function si(){
-let portal=document.getElementById("portal");
-portal.style.opacity=1;
+document.getElementById("main").classList.add("fade");
 
 setTimeout(()=>{
-document.getElementById("parte1").style.display="none";
-document.getElementById("parte2").style.display="flex";
-portal.style.opacity=0;
-},1500);
+document.body.innerHTML = `
+<div style="
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:100vh;
+background:radial-gradient(circle,#1a001a,#000);
+color:white;
+text-align:center;
+animation:fadeIn 1s;
+">
+
+<h1>Desde 10 de Mayo 2024 💕</h1>
+<p style="margin-top:20px;font-size:1.2rem;">
+Eres mi universo entero ✨<br>
+Mi persona favorita 💖<br>
+Te amo infinito.
+</p>
+
+<div style="font-size:50px;margin-top:30px;animation:latir 1s infinite;">❤️</div>
+
+</div>
+
+<style>
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes latir{
+0%{transform:scale(1);}
+50%{transform:scale(1.3);}
+100%{transform:scale(1);}
 }
+</style>
+`;
+},1000);
+
+});
 
 </script>
 
